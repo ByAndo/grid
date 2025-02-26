@@ -7,7 +7,7 @@
     "module": "dist/index.js",
     "types": "dist/index.d.ts",
     "scripts": {
-        "build": "tsc -b && powershell Copy-Item src/components/index.css -Destination dist/index.css",
+        "build": "tsc -b && powershell Copy-Item index.css -Destination dist/index.css",
         "dev": "vite",
         "lint": "eslint .",
         "preview": "vite preview",
