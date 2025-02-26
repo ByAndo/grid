@@ -35,7 +35,7 @@ const GridContextMenu = <T,>({
 
     // ✅ 컨텍스트 메뉴 항목 정의
     const menuItems: ContextMenuItem[] = [
-        // 🔹 정렬 관련 옵션
+        // 🔹 정렬 관련 옵션 
         options.sortable && {
             label: options.contextMenuLabels?.sortAsc || "오름차순 정렬",
             icon: <FaSortAmountUp className="text-blue-600 text-sm" />,
