@@ -23,6 +23,7 @@ const Grid = <T,>({
   
   return (
     <div className="relative w-full flex flex-col">
+        <h2>안녕</h2>
         <table className="w-full border-collapse">          
             <GridHeader
                 columns={columns}                                

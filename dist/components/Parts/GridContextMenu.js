@@ -4,12 +4,22 @@ import { FaFilter, FaLayerGroup, FaSortAmountDown, FaSortAmountUp, FaTimes } fro
 const GridContextMenu = ({ menuPosition, options, onClose, reducer, }) => {
     var _a, _b, _c, _d, _e, _f, _g;
     const menuRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                onClose();
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [onClose]);
+    console.log("안녕");
     // ✅ 메뉴 위치 또는 옵션이 없으면 렌더링 안함
     if (!menuPosition || !options)
         return null;
     // ✅ 컨텍스트 메뉴 항목 정의
     const menuItems = [
-        // 🔹 정렬 관련 옵션
+        // 🔹 정렬 관련 옵션 
         options.sortable && {
             label: ((_a = options.contextMenuLabels) === null || _a === void 0 ? void 0 : _a.sortAsc) || "오름차순 정렬",
             icon: _jsx(FaSortAmountUp, { className: "text-blue-600 text-sm" }),
@@ -52,15 +62,6 @@ const GridContextMenu = ({ menuPosition, options, onClose, reducer, }) => {
             onClick: () => reducer === null || reducer === void 0 ? void 0 : reducer.clearFilter(menuPosition.column),
         },
     ].filter(Boolean); // ✅ `undefined` 제거
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                onClose();
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [onClose]);
     return (_jsx(_Fragment, { children: _jsx("div", { ref: menuRef, className: "fixed z-[9999] w-48 border rounded-md border-[var(--color-second)] shadow-lg bg-[var(--color-prime)] text-[var(--color-font)]", style: {
                 top: `${menuPosition.y}px`,
                 left: `${menuPosition.x}px`,
