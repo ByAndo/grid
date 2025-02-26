@@ -1,0 +1,47 @@
+{
+    "name": "nh-grid-comp",
+    "private": false,
+    "version": "1.0.0",
+    "type": "module",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsc -b",
+        "dev": "vite",
+        "lint": "eslint .",
+        "preview": "vite preview",
+        "test": "jest"
+    },
+    "dependencies": {
+        "lucide-react": "^0.475.0",
+        "nh-grid-comp": "file:",
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0",
+        "react-icons": "^5.4.0",
+        "tailwind-merge": "^3.0.1",
+        "tailwindcss-animate": "^1.0.7"
+    },
+    "devDependencies": {
+        "@tailwindcss/vite": "^4.0.9",
+        "@types/react": "^19.0.8",
+        "@types/react-dom": "^19.0.3",
+        "@vitejs/plugin-react": "^4.3.4",
+        "autoprefixer": "^10.4.20",
+        "eslint": "^9.19.0",
+        "postcss": "^8.5.2",
+        "tailwindcss": "^4.0.6",
+        "typescript": "~5.7.2",
+        "vite": "^6.1.0"
+    },
+    "peerDependencies": {
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
+    },
+    "files": [
+        "dist",
+        "src/components",
+        "index.css",
+        "README.md"
+    ]
+}

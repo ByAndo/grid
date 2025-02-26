@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+      "outDir": "dist",           // 🔹 빌드 결과물 저장 위치
+      "declaration": true,         // 🔹 타입 정의 파일(.d.ts) 생성
+      "declarationDir": "dist",    // 🔹 타입 정의 파일 저장 위치
+      "module": "ESNext",          // 🔹 최신 ES 모듈 사용
+      "moduleResolution": "node",  // 🔹 Node 방식의 모듈 해석
+      "jsx": "react-jsx",          // 🔹 React JSX 지원
+      "target": "ES6",             // 🔹 ES6 이상으로 변환
+      "strict": true,              // 🔹 타입 검사를 엄격하게 적용
+      "esModuleInterop": true,     // 🔹 CommonJS 모듈과 호환
+      "skipLibCheck": true,        // 🔹 라이브러리 타입 검사는 생략
+      "forceConsistentCasingInFileNames": true // 🔹 파일명 대소문자 일관성 유지
+    },
+    "include": ["src"],  // 🔹 `src` 폴더 안의 모든 파일을 빌드
+    "exclude": ["node_modules", "dist", "public"] // 🔹 빌드에서 제외할 폴더
+  }
+  
