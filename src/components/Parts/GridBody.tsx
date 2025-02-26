@@ -32,25 +32,31 @@ const GridBody = <T,>({
     
         return (
             <React.Fragment key={`group-${groupKey}`}>
-                <tr className="bg-[var(--color-second-hover)] cursor-pointer border-b-2 border-[var(--color-second)]" onClick={() => onToggleGroupExpand(groupKey)}>
-                    <td className="table-td" colSpan={columns.length + (showRowNumCol ? 1 : 0) + (showRowCheckboxCol ? 1 : 0)}>
-                        {/* ✅ 컬럼 크기를 유지하면서 첫 번째 컬럼에만 그룹 아이콘 + 그룹명 표시 */}
+                <tr 
+                    style={{
+                        backgroundColor: "var(--color-second-hover)",
+                        cursor: "pointer",
+                        borderBottom: "2px solid var(--color-second)"
+                    }}
+                    onClick={() => onToggleGroupExpand(groupKey)}
+                >
+                    <td className="nh-table-cell" colSpan={columns.length + (showRowNumCol ? 1 : 0) + (showRowCheckboxCol ? 1 : 0)}>
                         <div 
-                            className="grid items-center font-bold"
                             style={{
                                 display: "grid",
                                 gridTemplateColumns: `${showRowNumCol ? "50px" : ""}${showRowCheckboxCol ? "50px" : ""}min-content ${columns.slice(1).map(col => col.width ? `${col.width}px` : "auto").join("")}`,
-                                whiteSpace: "nowrap"
+                                whiteSpace: "nowrap",
+                                fontWeight: "bold",
+                                alignItems: "center"
                             }}
                         >
-                            {/* ✅ 첫 번째 컬럼: 아이콘 + 그룹명 */}
-                            <div className="flex items-center" style={{ paddingLeft: `${level * 16}px` }}>
-                                <span className="mr-1">{isExpanded ? <FaChevronDown /> : <FaChevronRight />}</span>
+                            <div style={{ display: "flex", alignItems: "center", paddingLeft: `${level * 16}px` }}>
+                                <span style={{ marginRight: "4px" }}>{isExpanded ? <FaChevronDown /> : <FaChevronRight />}</span>
                                 <span>{groupKey} ({row.__children.length})</span>
                             </div>
                         </div>
                     </td>
-                </tr> 
+                </tr>
                     
                 {/* ✅ 그룹이 확장된 경우 자식 데이터 렌더링 (재귀 호출) */}
                 {isExpanded &&
@@ -65,17 +71,24 @@ const GridBody = <T,>({
     
     /** 🔹 일반 데이터 Row 렌더링 */
     const renderDataRow = (row: T, level: number, rowNum: number) => (
-        <tr key={JSON.stringify(row)} className="border-b border-[var(--color-second-hover)]">
-            {showRowNumCol ? <td className="table-td text-center">{rowNum}</td> : null}
+        <tr 
+            key={JSON.stringify(row)}
+            style={{ borderBottom: "1px solid var(--color-second-hover)" }}
+        >
+            {showRowNumCol ? <td className="nh-table-cell" style={{ textAlign: "center" }}>{rowNum}</td> : null}
             {showRowCheckboxCol ? (
-                <td className="table-td text-center">
-                    <input type="checkbox" checked={selectedRows.has(row)} onChange={() => onToggleRow(row)} className="cursor-pointer" />
+                <td className="nh-table-cell" style={{ textAlign: "center" }}>
+                    <input type="checkbox" checked={selectedRows.has(row)} onChange={() => onToggleRow(row)} style={{ cursor: "pointer" }} />
                 </td>
             ) : null}
             {columns.map((col) => {
                 const cellValue = col.renderCell ? col.renderCell(row) : row[col.key as keyof T];
                 return (
-                    <td key={String(col.key)} className="table-td" style={{ paddingLeft: `${level * 16}px` }}>
+                    <td 
+                        key={String(col.key)}
+                        className="nh-table-cell"
+                        style={{ paddingLeft: `${level * 16}px` }}
+                    >
                         {typeof cellValue === "object" && cellValue !== null ? JSON.stringify(cellValue) : String(cellValue ?? "")}
                     </td>
                 );

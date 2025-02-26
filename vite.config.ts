@@ -22,4 +22,5 @@ export default defineConfig({
   css: {
     postcss: "src/postcss.config.js", // ✅ PostCSS 설정을 추가하여 처리
   },
+  
 });

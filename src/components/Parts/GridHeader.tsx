@@ -33,71 +33,66 @@ const GridHeader = <T,>({
     const closeContextMenu = () => setmenuPosition(null); 
 
     return (
-      <thead className="bg-[var(--color-prime)] text-[var(--color-font)]">
-        <tr className="bg-[var(--color-second)] text-[var(--color-font)] border-b-[2px] border-[var(--color-font)]">  
-            {/*Row Number Defualt 컬럼  */}
-            {showRowNumCol && <th className="table-th">No.</th>}
-            {/*Rww Check Box Defualt 컬럼  */}
-            {showRowCheckboxCol && <th className="table-th">✔</th>}
-    
-            {columns.map((col) => (
-                <th
-                    key={col.key}
-                    className={`table-th relative ${
-                            col.className ? col.className : ""
-                        } ${col.sticky === "left" ? "sticky left-0 bg-[var(--color-prime)]" : ""} ${
-                            col.sticky === "right" ? "sticky right-0 bg-[var(--color-prime)]" : ""
-                        }`}
-                    style={{ 
-                        width: col.width ? `${col.width}px` : "auto", 
-                        textAlign: col.align || "left" }}
-                    title={col.tooltip}
-                    onContextMenu={(event)=> handleContextMenu(event, col.key)}
-                >
-                    <div className="flex items-center space-x-2 cursor-pointer">
-                        <span>{col.label}</span>
-                        {col.sortable && sortedColumn === col.key && sortDirection !== null && (
-                            sortDirection === "asc" ? 
-                                <FaSortAmountUp className="text-blue-600 text-sm" /> 
-                                : <FaSortAmountDown className="text-blue-600 text-sm" />
-                        )}
-                        {group.column?.includes(col.key) && <FaLayerGroup className="text-green-600 text-sm" />}
-                        {options?.filterable && filters[col.key] !== undefined && <FaFilter className="text-amber-500 text-sm" />}
-                    </div>
-                </th>
-            ))}
-        </tr>
-        {/* ✅ 필터 입력 행 */}
-        {columns.some(col => options?.filterable && filters[col.key] !== undefined) 
-            ? (
-                <tr className="bg-[var(--color-prime-hover)] border-b border-[var(--color-font)]">
-                    {showRowNumCol ? <td className="p-2">&nbsp;</td> : null}
-                    {showRowCheckboxCol ? <td className="p-2">&nbsp;</td> : null}
-                    {columns.map((col) => (
-                        <td key={col.key} className="p-2">
-                            {col.filterable && filters[col.key] !== undefined && (
-                                <input
-                                    type="text"
-                                    value={filters[col.key] || ""}
-                                    onChange={(e) => reducer.setFilter({ ...filters, [col.key]: e.target.value })}
-                                    className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary w-full p-1 border border-[var(--color-second)] bg-white text-black bg-[--color-second]"
-                                    placeholder="필터 입력..."
-                                />
+        <thead className="nh-grid-header">
+            <tr className="nh-grid-header-row">
+                {showRowNumCol && <th className="nh-grid-header-cell">No.</th>}
+                {showRowCheckboxCol && <th className="nh-grid-header-cell">✔</th>}
+
+                {columns.map((col) => (
+                    <th
+                        key={col.key}
+                        className={`nh-grid-header-cell ${
+                            col.sticky === "left" ? "sticky-left" : ""
+                        } ${col.sticky === "right" ? "sticky-right" : ""}`}
+                        style={{ width: col.width ? `${col.width}px` : "auto", textAlign: col.align || "left" }}
+                        title={col.tooltip}
+                        onContextMenu={(event) => handleContextMenu(event, col.key)}
+                    >
+                        <div className="nh-grid-header-content">
+                            <span>{col.label}</span>
+                            {col.sortable && sortedColumn === col.key && sortDirection !== null && (
+                                sortDirection === "asc" ? 
+                                    <FaSortAmountUp style={{ color: "#2563EB", fontSize: "14px" }} />
+                                    : <FaSortAmountDown style={{ color: "#2563EB", fontSize: "14px" }} />
                             )}
-                        </td>
-                    ))}
-                </tr>
-            ) : null}
-        {/* ✅ 컨텍스트 메뉴 추가 */}
-        {options && 
-            <GridContextMenu
-                menuPosition={menuPosition}
-                options={options}
-                onClose={closeContextMenu} 
-                reducer={reducer}
-            />
-        }
-      </thead>
+                            {group.column?.includes(col.key) && <FaLayerGroup style={{ color: "#16A34A", fontSize: "14px" }} />}
+                            {options?.filterable && filters[col.key] !== undefined && <FaFilter style={{ color: "#D97706", fontSize: "14px" }} />}
+                        </div>
+                    </th>
+                ))}
+            </tr>
+
+            {/* ✅ 필터 입력 행 */}
+            {columns.some(col => options?.filterable && filters[col.key] !== undefined) 
+                ? (
+                    <tr className="nh-grid-filter-row">
+                        {showRowNumCol ? <td style={{ padding: "8px" }}>&nbsp;</td> : null}
+                        {showRowCheckboxCol ? <td style={{ padding: "8px" }}>&nbsp;</td> : null}
+                        {columns.map((col) => (
+                            <td key={col.key} style={{ padding: "8px" }}>
+                                {col.filterable && filters[col.key] !== undefined && (
+                                    <input
+                                        type="text"
+                                        value={filters[col.key] || ""}
+                                        onChange={(e) => reducer.setFilter({ ...filters, [col.key]: e.target.value })}
+                                        className="nh-grid-filter-input"
+                                        placeholder="필터 입력..."
+                                    />
+                                )}
+                            </td>
+                        ))}
+                    </tr>
+                ) : null}
+                {/* ✅ 컨텍스트 메뉴 추가 */}
+                {options && 
+                    <GridContextMenu
+                        menuPosition={menuPosition}
+                        options={options}
+                        onClose={closeContextMenu} 
+                        reducer={reducer}
+                    />
+                }
+        </thead>
       
       
     );

@@ -86,6 +86,88 @@ body {
     background-color: var(--color-second-hover); /* 컬럼 hover 시 강조 */
     transition: background-color 0.2s ease-in-out;
 }
+
+.nh-grid-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.nh-grid-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* ✅ GridHeader.tsx에 적용할 스타일 */
+.nh-grid-header {
+    background-color: var(--color-prime);
+    color: var(--color-font);
+}
+
+.nh-grid-header-row {
+    background-color: var(--color-second);
+    color: var(--color-font);
+    border-bottom: 2px solid var(--color-font);
+}
+
+.nh-grid-header-cell {
+    position: relative;
+    text-align: left;
+    padding: 0.5rem;
+    width: 3rem;
+    border-right: 1px solid var(--color-prime-hover);
+    background-color: var(--color-second);
+    font-weight: bold;
+}
+
+.nh-grid-header-cell.sticky-left {
+    position: sticky;
+    left: 0;
+    background-color: var(--color-prime);
+}
+
+.nh-grid-header-cell.sticky-right {
+    position: sticky;
+    right: 0;
+    background-color: var(--color-prime);
+}
+
+/* ✅ 컬럼 내부 아이콘 정렬 */
+.nh-grid-header-content {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* space-x-2 대체 */
+    cursor: pointer;
+}
+
+/* ✅ 필터 행 스타일 */
+.nh-grid-filter-row {
+    background-color: var(--color-prime-hover);
+    border-bottom: 1px solid var(--color-font);
+}
+
+.nh-grid-filter-input {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1px solid var(--color-second);
+    background-color: white;
+    color: black;
+    outline: none;
+    border-radius: 4px;
+}
+
+.nh-table-cell {
+    padding: 8px; /* Tailwind p-2 대체 */
+    /* border-right: 1px solid var(--color-prime-hover); */
+    text-align: left;
+}
+
+.nh-table-cell:last-child {
+    border-right: none;
+}
+
+
     
   
   
