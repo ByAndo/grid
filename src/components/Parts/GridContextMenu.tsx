@@ -30,6 +30,8 @@ const GridContextMenu = <T,>({
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [onClose]);
 
+    console.log("안녕");
+    
     // ✅ 메뉴 위치 또는 옵션이 없으면 렌더링 안함
     if (!menuPosition || !options) return null;
 
