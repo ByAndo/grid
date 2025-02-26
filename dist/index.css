@@ -1,0 +1,91 @@
+/* index.css 수정 */
+@import "tailwindcss";
+
+:root {
+    --color-background: #F9FAFB; /* 전체 배경 */
+    --color-font: #111827; /* 기본 텍스트 */
+    --color-font-edited: #FF4500; /* 수정된 텍스트 */
+
+    --color-prime: #F9FAFB; /* 기본 색상 (버튼, 카드 배경) */
+    --color-prime-hover: #D6D6DA; /* Hover 시 강조되는 밝은 회색 */
+
+    --color-second: #e3e4e6; /* 보조 색상 (VS Code의 파란 계열) */
+    --color-second-hover: #D6D6DA ; /* Hover 시 더 강조된 보라 계열 */
+
+    --color-third: #EF4444; /* 강렬한 포인트 색상 (에러, 경고) */
+    --color-third-hover: #DC2626; /* Hover 시 더 강조된 레드 */
+
+    --color-fourth: #3B82F6; /* ✅ 기본 파란색 */
+    --color-fourth-hover: #2563EB; /* ✅ 호버 시 더 진한 파란색 */
+
+    --color-active: #9fd0f1; /* 클릭된 상태에서 강조될 색상 */ 
+}
+
+.dark {
+    --color-background: #1E1E1E; /* VS Code 기본 다크 배경 */
+    --color-font: #D4D4D4; /* VS Code 스타일 밝은 텍스트 */
+    --color-font-edited: #bba529; /* 수정된 텍스트 */    
+    
+    --color-prime: #2C2C2C; /* 다크 모드 기본 배경 */
+    --color-prime-hover: #4A4A4A; /* Hover 시 강조된 진한 그레이 */
+    
+    --color-second: #313131; /* 보조 색상 (VS Code 파란톤 느낌) */
+    --color-second-hover: #464545; /* Hover 시 더 강조된 보라 계열 */
+    
+    --color-third: #F87171; /* 다크 모드에서도 잘 보이는 레드 */
+    --color-third-hover: #DC2626; /* Hover 시 더 강렬한 레드 */
+    
+    --color-fourth: #3B82F6; /* ✅ 기본 파란색 */
+    --color-fourth-hover: #2563EB; /* ✅ 호버 시 더 진한 파란색 */   
+    
+    --color-active: #0883d4; /* VS Code의 주요 강조 색상 */
+}
+
+body, html {
+    height: 100%; /* 전체 높이 설정 */    
+}
+
+/* Tailwind에서 변수를 활용할 수 있도록 */
+body {
+    background-color: var(--color-background);    
+    color: var(--color-font);
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    word-spacing: 2px;
+    text-align: left;
+    visibility: visible;    
+}
+.sidebar {
+    width: 3.5rem; /* Tailwind w-14 (14 * 0.25rem) */    
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem; /* Tailwind py-4 */
+    padding-bottom: 1rem;
+}
+.table-th {
+    padding: 0.5rem; /* Tailwind p-2 */
+    border-right: 1px solid var(--color-prime-hover); /* 헤더 컬럼 사이 구분선 */
+    text-align: center; /* 가운데 정렬 */
+    width: 3rem; /* Tailwind w-12 (12 * 0.25rem) */
+    background-color: var(--color-second); /* 기본 헤더 배경 */
+    font-weight: bold;
+}
+
+.table-td {
+    padding: 0.5rem; /* Tailwind p-2 */    
+    text-align: left;
+}
+/* 마지막 컬럼의 우측 선 제거 */
+.table-td:last-child {
+    border-right: none;
+}
+/* 마우스 호버 시 효과 */
+.table-td:hover {
+    background-color: var(--color-second-hover); /* 컬럼 hover 시 강조 */
+    transition: background-color 0.2s ease-in-out;
+}
+    
+  
+  
