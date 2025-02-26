@@ -17,7 +17,21 @@ const GridContextMenu = <T,>({
     reducer,
 }: GridContextMenuProps<T>) => {
     
-      const menuRef = useRef<HTMLDivElement>(null); 
+    const menuRef = useRef<HTMLDivElement>(null); 
+    
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            onClose();
+          }
+        };
+    
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [onClose]);
+
+    // ✅ 메뉴 위치 또는 옵션이 없으면 렌더링 안함
+    if (!menuPosition || !options) return null;
 
     // ✅ 컨텍스트 메뉴 항목 정의
     const menuItems: ContextMenuItem[] = [
@@ -69,19 +83,7 @@ const GridContextMenu = <T,>({
         },
     ].filter(Boolean) as ContextMenuItem[]; // ✅ `undefined` 제거
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-          if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-            onClose();
-          }
-        };
-    
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, [onClose]);
 
-    // ✅ 메뉴 위치 또는 옵션이 없으면 렌더링 안함
-    if (!menuPosition || !options) return null;
 
 
     return (
