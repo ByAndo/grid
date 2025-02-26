@@ -23,13 +23,13 @@ const GridPagination = ({ currentPage, totalPages, totalDataCount, pageSize, onP
                                         setIsOpen(false);
                                     }, className: "flex items-center gap-2 px-3 py-1.5 hover:bg-[var(--color-prime-hover)] cursor-pointer", children: size }, index))) }))] })] }), _jsxs("div", { className: "flex space-x-1", children: [_jsx("button", { className: "flex items-center justify-center gap-1 px-2 py-1 text-[13px] \r\n                        font-semibold rounded transition\r\n                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer", style: {
                             background: "var(--color-second-hover)",
-                            color: "var(--color-second)"
-                        }, onMouseEnter: (e) => e.currentTarget.style.background = "var(--color-second)", onMouseLeave: (e) => e.currentTarget.style.background = "var(--color-second-hover)", children: _jsx(FaChevronLeft, { size: 14 }) }), Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (_jsx("button", { className: "flex items-center justify-center gap-1 px-2 py-1 text-[13px] \r\n                            font-semibold rounded transition\r\n                            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer", style: {
+                            color: "var(--color-font)"
+                        }, onMouseEnter: (e) => e.currentTarget.style.background = "var(--color-second-hover)", onMouseLeave: (e) => e.currentTarget.style.background = "var(--color-second)", children: _jsx(FaChevronLeft, { size: 14 }) }), Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (_jsx("button", { className: "flex items-center justify-center gap-1 px-2 py-1 text-[13px] \r\n                            font-semibold rounded transition\r\n                            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer", style: {
                             background: (page === currentPage ? "var(--color-active)" : "var(--color-second)"),
-                            color: "var(--color-second)"
-                        }, onClick: () => onPageChange(page), onMouseEnter: (e) => e.currentTarget.style.background = "var(--color-second)", onMouseLeave: (e) => e.currentTarget.style.background = "var(--color-second-hover)", children: page }, page))), _jsx("button", { className: "flex items-center justify-center gap-1 px-2 py-1 text-[13px] \r\n                        font-semibold rounded transition\r\n                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer", style: {
+                            color: "var(--color-font)"
+                        }, onClick: () => onPageChange(page), onMouseEnter: (e) => e.currentTarget.style.background = "var(--color-second-hover)", onMouseLeave: (e) => e.currentTarget.style.background = (page === currentPage ? "var(--color-active)" : "var(--color-second)"), children: page }, page))), _jsx("button", { className: "flex items-center justify-center gap-1 px-2 py-1 text-[13px] \r\n                        font-semibold rounded transition\r\n                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer", style: {
                             background: "var(--color-second-hover)",
-                            color: "var(--color-second)"
-                        }, onMouseEnter: (e) => e.currentTarget.style.background = "var(--color-second)", onMouseLeave: (e) => e.currentTarget.style.background = "var(--color-second-hover)", children: _jsx(FaChevronRight, { size: 14 }) })] })] }));
+                            color: "var(--color-font)"
+                        }, onMouseEnter: (e) => e.currentTarget.style.background = "var(--color-second-hover)", onMouseLeave: (e) => e.currentTarget.style.background = "var(--color-second)", children: _jsx(FaChevronRight, { size: 14 }) })] })] }));
 };
 export default GridPagination;

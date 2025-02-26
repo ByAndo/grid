@@ -1,7 +1,7 @@
 import React from "react";
 import type { Meta, StoryObj } from "@storybook/react";
-import Grid from "./Grid";
-import { GridColumn } from "./GridTypes";
+import Grid from "../components/Grid";
+import { GridColumn } from "../components/GridTypes";
 
 interface SampleData {
   id: number;

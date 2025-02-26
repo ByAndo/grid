@@ -3,6 +3,7 @@ import GridBody from "./Parts/GridBody";
 import { useGridReducer } from "./Reducer/useGridReducer";
 import GridPagination from "./Parts/GridPagination";
 import { GridProps } from "./GridTypes";
+import '../../index.css';
 
 const Grid = <T,>({
   columns,
@@ -23,7 +24,7 @@ const Grid = <T,>({
   
   return (
     <div className="relative w-full flex flex-col">
-        <h2>안녕</h2>
+        <h2>V0.1.1</h2>
         <table className="w-full border-collapse">          
             <GridHeader
                 columns={columns}                                

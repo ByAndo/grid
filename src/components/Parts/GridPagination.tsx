@@ -82,10 +82,10 @@ const GridPagination: React.FC<PaginationProps> = ({
                         disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         style={{
                             background : "var(--color-second-hover)",    
-                            color : "var(--color-second)"                          
+                            color : "var(--color-font)"                          
                         }}        
-                        onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second)"}
-                        onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}                                                    
+                        onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}
+                        onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second)"}                                                    
                 >
                     <FaChevronLeft size={14} />   
                 </button>                             
@@ -98,11 +98,11 @@ const GridPagination: React.FC<PaginationProps> = ({
                             disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             style={{
                                 background :(page === currentPage ? "var(--color-active)" : "var(--color-second)"),    
-                                color : "var(--color-second)"                          
+                                color : "var(--color-font)"                          
                             }}        
                             onClick={() => onPageChange(page)}
-                            onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second)"}
-                            onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}                                                    
+                            onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}
+                            onMouseLeave={(e)=> e.currentTarget.style.background = (page === currentPage ? "var(--color-active)" : "var(--color-second)")}                                                    
                     >
                         {page}  
                     </button>                      
@@ -113,10 +113,10 @@ const GridPagination: React.FC<PaginationProps> = ({
                         disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         style={{
                             background : "var(--color-second-hover)",    
-                            color : "var(--color-second)"                          
+                            color : "var(--color-font)"                          
                         }}        
-                        onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second)"}
-                        onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}                                                    
+                        onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}
+                        onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second)"}                                                    
                 >
                     <FaChevronRight size={14} />   
                 </button>                   
