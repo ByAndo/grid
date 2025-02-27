@@ -1,6 +1,4 @@
 /* index.css 수정 */
-@import "tailwindcss";
-
 :root {
     --color-background: #F9FAFB; /* 전체 배경 */
     --color-font: #111827; /* 기본 텍스트 */
@@ -163,9 +161,155 @@ body {
     text-align: left;
 }
 
-.nh-table-cell:last-child {
-    border-right: none;
+.nh-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: var(--color-second);
+    color: var(--color-font);
+    cursor: pointer;
+    border: none; /* ✅ 기본적으로 테두리 제거 */
+    transition: background-color 0.2s ease-in-out;
 }
+
+.nh-button:hover {
+    background-color: var(--color-second-hover);
+}
+
+.nh-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ✅ 현재 선택된 페이지 버튼 스타일 */
+.nh-button-active {
+    background-color: var(--color-active);
+}
+
+/* ✅ 드롭다운 컨테이너 */
+.nh-dropdown-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ✅ 드롭다운 라벨 */
+.nh-dropdown-label {
+    font-size: 14px;
+    color: var(--color-font);
+}
+
+/* ✅ 드롭다운 래퍼 (메뉴의 기준점) */
+.nh-dropdown-wrapper {
+    position: relative;
+}
+
+/* ✅ 드롭다운 버튼 */
+.nh-dropdown-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px;
+    height: 24px;
+    font-size: 14px;
+    border-radius: 6px;
+    background-color: var(--color-prime);
+    color: var(--color-font);
+    width: 64px;
+    cursor: pointer;
+    border: none; /* ✅ 기본적으로 테두리 제거 */
+}
+
+/* ✅ 드롭다운 메뉴 */
+.nh-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    width: 144px;
+    border: 1px solid var(--color-second);
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    background-color: var(--color-prime);
+    color: var(--color-font);
+    z-index: 1000;
+}
+
+/* ✅ 드롭다운 아이템 */
+.nh-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.nh-dropdown-item:hover {
+    background-color: var(--color-prime-hover);
+}
+
+/* ✅ 컨텍스트 메뉴 기본 스타일 */
+.nh-context-menu {
+    position: fixed;
+    z-index: 9999;
+    width: 192px;
+    border: 1px solid var(--color-second);
+    border-radius: 6px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-prime);
+    color: var(--color-font);
+    transform: translate(0, 5px);
+}
+
+/* ✅ 컨텍스트 메뉴 리스트 */
+.nh-context-menu-list {
+    font-size: 14px;
+    list-style: none;
+    padding: 4px 0;
+    margin: 0;
+}
+
+/* ✅ 컨텍스트 메뉴 아이템 */
+.nh-context-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.nh-context-item:hover {
+    background-color: var(--color-prime-hover);
+}
+
+/* ✅ 비활성화된 메뉴 아이템 */
+.nh-context-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ✅ 컨텍스트 메뉴 구분선 */
+.nh-context-divider {
+    border-top: 1px solid var(--color-second);
+    margin: 4px 0;
+}
+
+/* ✅ 아이콘 스타일 */
+.nh-context-icon {
+    display: flex;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+}
+
+
+
+
 
 
     

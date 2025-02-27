@@ -1,6 +1,6 @@
 import { GridOptions } from "../GridTypes";
 import { GridReducerReturn } from "../Reducer/useGridReducer";
-interface GridContextMenuProps<T> {
+declare const GridContextMenu: <T>({ menuPosition, options, onClose, reducer, }: {
     menuPosition: {
         x: number;
         y: number;
@@ -9,6 +9,5 @@ interface GridContextMenuProps<T> {
     options?: GridOptions;
     onClose: () => void;
     reducer?: GridReducerReturn<T>;
-}
-declare const GridContextMenu: <T>({ menuPosition, options, onClose, reducer, }: GridContextMenuProps<T>) => import("react/jsx-runtime").JSX.Element | null;
+}) => import("react/jsx-runtime").JSX.Element | null;
 export default GridContextMenu;

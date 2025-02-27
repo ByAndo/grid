@@ -23,48 +23,60 @@ const GridPagination: React.FC<PaginationProps> = ({
     const dropdownRef = useRef<HTMLDivElement>(null); 
     
     useEffect(() => {
-      const handleClickOutside = (event: MouseEvent) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-          setIsOpen(false);
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+  
+        if (isOpen) {
+            window.addEventListener("click", handleClickOutside);
         }
-      };
   
-      if (isOpen) {
-        window.addEventListener("click", handleClickOutside);
-      }
-  
-      return () => {
-        window.removeEventListener("click", handleClickOutside);
-      };
+        return () => {
+            window.removeEventListener("click", handleClickOutside);
+        };
     }, [isOpen]);       
 
     return (
-        <div className="flex items-center justify-between px-4 py-2 border-t border-[var(--color-font)] bg-[var(--color-second)]">
+        <div 
+            style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "8px 16px",
+                borderTop: "1px solid var(--color-font)",
+                backgroundColor: "var(--color-second)"
+            }}
+        >
             {/* 🔹 총 데이터 개수 & 현재 페이지 정보 */}
-            <span className="text-sm text-[var(--color-font)]">
+            <span style={{ fontSize: "14px", color: "var(--color-font)" }}>
                 Total <b>{totalDataCount}</b> page | Page {currentPage} / {totalPages}
             </span>
-
-            {/* 🔹 페이지 크기 선택 (pageSize 변경) */}
-            <div className="flex items-center space-x-2">
-                <span className="text-sm">Page Size:</span>
-                <div className="relative" ref={dropdownRef}>
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className="flex items-center gap-2 p-1 h-6 text-sm rounded-md bg-[var(--color-prime)] text-[var(--color-font)] w-16"
+        
+            {/* 🔹 페이지 크기 선택 */}
+            <div className="nh-dropdown-container">
+                <span className="nh-dropdown-label">Page Size:</span>
+                <div className="nh-dropdown-wrapper" ref={dropdownRef}>
+                    <button 
+                        onClick={(e) => {
+                            e.stopPropagation(); // ✅ 드롭다운 내부 클릭 시 닫히지 않도록 수정
+                            setIsOpen(!isOpen);
+                        }} 
+                        className="nh-dropdown-button"
                     >
                         {pageSize}
                     </button>
                     {isOpen && (                
-                        <div className="absolute left-0 mt-1 w-36 border rounded-md border-[var(--color-second)] shadow-lg bg-[var(--color-prime)] text-[var(--color-font)]">
+                        <div className="nh-dropdown-menu">
                             {pageSizes.map((size, index) => (
                                 <div
                                     key={index}
                                     onClick={() => {
-                                        onPageSizeChange(size)
+                                        onPageSizeChange(size);
                                         setIsOpen(false);
                                     }}
-                                    className="flex items-center gap-2 px-3 py-1.5 hover:bg-[var(--color-prime-hover)] cursor-pointer"
+                                    className="nh-dropdown-item"
                                 >         
                                     {size}
                                 </div>
@@ -73,52 +85,33 @@ const GridPagination: React.FC<PaginationProps> = ({
                     )}                    
                 </div>            
             </div>
-
+        
             {/* 🔹 페이지네이션 버튼 */}
-            <div className="flex space-x-1">
-                <button      
-                    className="flex items-center justify-center gap-1 px-2 py-1 text-[13px] 
-                        font-semibold rounded transition
-                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                        style={{
-                            background : "var(--color-second-hover)",    
-                            color : "var(--color-font)"                          
-                        }}        
-                        onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}
-                        onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second)"}                                                    
-                >
-                    <FaChevronLeft size={14} />   
+            <div style={{ display: "flex", gap: "4px" }}>
+            <button 
+                className="nh-button" 
+                onClick={() => currentPage > 1 && onPageChange(currentPage - 1)} 
+                disabled={currentPage === 1} 
+            >
+                    <FaChevronLeft size={14} />
                 </button>                             
-
+        
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <button      
-                        key = {page}
-                        className="flex items-center justify-center gap-1 px-2 py-1 text-[13px] 
-                            font-semibold rounded transition
-                            disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                            style={{
-                                background :(page === currentPage ? "var(--color-active)" : "var(--color-second)"),    
-                                color : "var(--color-font)"                          
-                            }}        
-                            onClick={() => onPageChange(page)}
-                            onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}
-                            onMouseLeave={(e)=> e.currentTarget.style.background = (page === currentPage ? "var(--color-active)" : "var(--color-second)")}                                                    
+                        key={page}
+                        className={`nh-button ${page === currentPage ? "nh-button-active" : ""}`}  
+                        onClick={() => onPageChange(page)}
                     >
                         {page}  
                     </button>                      
                 ))}
-                <button      
-                    className="flex items-center justify-center gap-1 px-2 py-1 text-[13px] 
-                        font-semibold rounded transition
-                        disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                        style={{
-                            background : "var(--color-second-hover)",    
-                            color : "var(--color-font)"                          
-                        }}        
-                        onMouseEnter={(e)=> e.currentTarget.style.background = "var(--color-second-hover)"}
-                        onMouseLeave={(e)=> e.currentTarget.style.background = "var(--color-second)"}                                                    
-                >
-                    <FaChevronRight size={14} />   
+        
+        <button 
+            className="nh-button" 
+            onClick={() => currentPage < totalPages && onPageChange(currentPage + 1)} 
+            disabled={currentPage === totalPages} 
+        >
+                    <FaChevronRight size={14} />
                 </button>                   
             </div>
         </div>
