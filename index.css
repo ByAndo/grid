@@ -307,6 +307,54 @@ body {
     height: 20px;
 }
 
+/* ✅ 적용 / 되돌리기 버튼 스타일 */
+.nh-action-cell {
+    display: flex;
+    gap: 1px;
+    justify-content: center;
+}
+
+.nh-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.nh-btn-apply {
+    background-color: var(--color-fourth); /* 파란색 */
+    color: white;
+}
+
+.nh-btn-apply:hover {
+    background-color: var(--color-fourth-hover);
+}
+
+.nh-btn-reset {
+    background-color: var(--color-third); /* 빨간색 */
+    color: white;
+}
+
+.nh-btn-reset:hover {
+    background-color: var(--color-third-hover);
+}
+
+/* ✅ 셀 편집 인풋 */
+.nh-edit-input {
+    width: 100%;
+    border: 1px solid var(--color-second);
+    padding: 4px;
+    font-size: 14px;
+    outline: none;
+    border-radius: 4px;
+}
+
+
 
 
 

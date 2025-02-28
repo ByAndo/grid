@@ -75,6 +75,30 @@ function useGridReducer(data, pagingable = false, pageSize = 10) {
             state: gridStateChanges(Object.assign(Object.assign({}, state), { pagenate: Object.assign(Object.assign({}, state.pagenate), { pageSize: pageSize }) }))
         });
     };
+    const setEditingCell = (rowKey, colKey, value) => {
+        dispatch({ type: "SET_EDITING_CELL", payload: { rowKey, colKey, value } });
+    };
+    const clearEditingCell = () => {
+        dispatch({ type: "CLEAR_EDITING_CELL" });
+    };
+    const editCell = (rowKey, colKey, newValue) => {
+        dispatch({ type: "EDIT_CELL", payload: { rowKey, colKey, newValue } });
+    };
+    const removeEditedCell = (rowKey, colKey) => {
+        dispatch({ type: "REMOVE_EDITED_CELL", payload: { rowKey, colKey } });
+    };
+    const applyRowChanges = (rowKey) => {
+        dispatch({ type: "APPLY_ROW_CHANGES", payload: { rowKey } });
+    };
+    const resetRowChanges = (rowKey) => {
+        dispatch({ type: "RESET_ROW_CHANGES", payload: { rowKey } });
+    };
+    const applyAllChanges = () => {
+        dispatch({ type: "APPLY_ALL_CHANGES" });
+    };
+    const resetAllChanges = () => {
+        dispatch({ type: "RESET_ALL_CHANGES" });
+    };
     /** 🔹 Grid 상태 전체 업데이트 */
     const updateGridState = () => {
         dispatch({
@@ -93,7 +117,15 @@ function useGridReducer(data, pagingable = false, pageSize = 10) {
         expandGroup,
         toggleRow,
         setPage,
-        setPageSize
+        setPageSize,
+        editCell,
+        setEditingCell,
+        clearEditingCell,
+        applyAllChanges,
+        resetAllChanges,
+        removeEditedCell,
+        applyRowChanges,
+        resetRowChanges,
     };
 }
 export { useGridReducer };

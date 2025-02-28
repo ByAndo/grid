@@ -12,6 +12,14 @@ export interface GridReducerReturn<T> {
     setPageSize: (pageSize: number) => void;
     expandGroup: (column: string) => void;
     updateGridState: () => void;
+    editCell: (rowKey: string, colKey: string, newValue: any) => void;
+    setEditingCell: (rowKey: string, colKey: string, newValue: any) => void;
+    clearEditingCell: () => void;
+    applyAllChanges: () => void;
+    resetAllChanges: () => void;
+    removeEditedCell: (rowKey: string, colKey: string) => void;
+    applyRowChanges: (rowKey: string) => void;
+    resetRowChanges: (rowKey: string) => void;
 }
 /** 🔹 useGridReducer 훅 */
 declare function useGridReducer<T>(data: T[], pagingable?: boolean, pageSize?: number): GridReducerReturn<T>;

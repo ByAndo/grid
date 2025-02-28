@@ -1,7 +1,7 @@
 {
   "name": "nh-grid-comp",
   "private": false,
-  "version": "1.0.0",
+  "version": "0.1.2",
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",

@@ -1,15 +1,15 @@
 import { useEffect, useRef } from "react";
-import { ContextMenuItem, GridOptions } from "../GridTypes";
+import { ContextMenuItem, GridColumn, GridOptions } from "../GridTypes";
 import { GridReducerReturn } from "../Reducer/useGridReducer";
 import { FaFilter, FaLayerGroup, FaSortAmountDown, FaSortAmountUp, FaTimes } from "react-icons/fa";
 
-const GridContextMenu = <T,>({
+const GridContextMenu = <T,>({    
     menuPosition,
     options,
     onClose,
     reducer,
 }: {
-    menuPosition: { x: number; y: number; column: string } | null;
+    menuPosition: { x: number; y: number; column: GridColumn<T> } | null;
     options?: GridOptions;
     onClose: () => void;
     reducer?: GridReducerReturn<T>;
@@ -30,42 +30,44 @@ const GridContextMenu = <T,>({
     if (!menuPosition || !options) return null;
 
     const menuItems: ContextMenuItem[] = [
-        options.sortable && {
+        options.sortable && menuPosition.column.sortable && {
             label: options.contextMenuLabels?.sortAsc || "오름차순 정렬",
             icon: <FaSortAmountUp style={{ color: "#2563EB", fontSize: "14px" }} />, // ✅ text-blue-600
-            onClick: () => reducer?.setSort(menuPosition.column, "asc"),
+            onClick: () => reducer?.setSort(menuPosition.column.key, "asc"),
         },
-        options.sortable && {
+        options.sortable && menuPosition.column.sortable && {
             label: options.contextMenuLabels?.sortDesc || "내림차순 정렬",
             icon: <FaSortAmountDown style={{ color: "#2563EB", fontSize: "14px" }} />, // ✅ text-blue-600
-            onClick: () => reducer?.setSort(menuPosition.column, "desc"),
+            onClick: () => reducer?.setSort(menuPosition.column.key, "desc"),
         },
-        options.sortable && {
+        options.sortable && menuPosition.column.sortable && {
             label: options.contextMenuLabels?.clearSort || "정렬 해제",
             icon: <FaTimes style={{ color: "#DC2626", fontSize: "14px" }} />, // ✅ text-red-600
-            onClick: () => reducer?.setSort(menuPosition.column, null),
+            onClick: () => reducer?.setSort(menuPosition.column.key, null),
         },
-        options.sortable && (options.grouping || options.filterable) && { divider: true },
+        options.sortable && menuPosition.column.sortable && (options.grouping || options.filterable) && { divider: true },
+
         options.grouping && {
             label: options.contextMenuLabels?.group || "그룹화",
             icon: <FaLayerGroup style={{ color: "#16A34A", fontSize: "14px" }} />, // ✅ text-green-600
-            onClick: () => reducer?.setGroup(menuPosition.column),
+            onClick: () => reducer?.setGroup(menuPosition.column.key),
         },
         options.grouping && {
             label: options.contextMenuLabels?.ungroup || "그룹 해제",
             icon: <FaTimes style={{ color: "#DC2626", fontSize: "14px" }} />, // ✅ text-red-600
-            onClick: () => reducer?.removeGroup(menuPosition.column),
+            onClick: () => reducer?.removeGroup(menuPosition.column.key),
         },
-        options.grouping && options.filterable && { divider: true },
-        options.filterable && {
+        (options.grouping || options.sortable) && options.filterable && menuPosition.column.filterable &&  { divider: true },
+
+        options.filterable && menuPosition.column.filterable &&{
             label: options.contextMenuLabels?.filter || "필터",
             icon: <FaFilter style={{ color: "#D97706", fontSize: "14px" }} />, // ✅ text-amber-500
-            onClick: () => reducer?.setFilter({ [menuPosition.column]: "" }),
+            onClick: () => reducer?.setFilter({ [menuPosition.column.key]: "" }),
         },
-        options.filterable && {
+        options.filterable && menuPosition.column.filterable && {
             label: options.contextMenuLabels?.clearFilter || "필터 해제",
             icon: <FaTimes style={{ color: "#DC2626", fontSize: "14px" }} />, // ✅ text-red-600
-            onClick: () => reducer?.clearFilter(menuPosition.column),
+            onClick: () => reducer?.clearFilter(menuPosition.column.key),
         },
     ].filter(Boolean) as ContextMenuItem[];
     

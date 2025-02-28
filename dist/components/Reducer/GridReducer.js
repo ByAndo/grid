@@ -16,6 +16,8 @@ const initialGridState = (data, pagingable, pageSize) => {
             pageSize: pageSize,
             currentPage: 1,
         },
+        editedRows: {},
+        editingCell: null
     };
 };
 /** 🔹 Grid 리듀서 함수 */
@@ -78,6 +80,70 @@ function gridReducer(state, action) {
         /** 🔹 페이지 변경 */
         case "SET_PAGE_SIZE": {
             return Object.assign(Object.assign({}, state), { pagenate: Object.assign(Object.assign({}, state.pagenate), { pageSize: action.pageSize }) });
+        }
+        case "SET_EDITING_CELL": {
+            return Object.assign(Object.assign({}, state), { editingCell: {
+                    rowKey: action.payload.rowKey,
+                    colKey: action.payload.colKey,
+                    value: action.payload.value
+                } });
+        }
+        case "CLEAR_EDITING_CELL": {
+            return Object.assign(Object.assign({}, state), { editingCell: null });
+        }
+        case "EDIT_CELL": {
+            const { rowKey, colKey, newValue } = action.payload;
+            return Object.assign(Object.assign({}, state), { editedRows: Object.assign(Object.assign({}, state.editedRows), { [rowKey]: Object.assign(Object.assign({}, state.editedRows[rowKey]), { [colKey]: newValue }) }) });
+        }
+        case "REMOVE_EDITED_CELL": {
+            const { rowKey, colKey } = action.payload;
+            const updatedRow = Object.assign({}, state.editedRows[rowKey]);
+            delete updatedRow[colKey];
+            if (Object.keys(updatedRow).length === 0) {
+                const newEditedRows = Object.assign({}, state.editedRows);
+                delete newEditedRows[rowKey];
+                return Object.assign(Object.assign({}, state), { editedRows: newEditedRows });
+            }
+            return Object.assign(Object.assign({}, state), { editedRows: Object.assign(Object.assign({}, state.editedRows), { [rowKey]: updatedRow }) });
+        }
+        case "APPLY_ROW_CHANGES": {
+            const { rowKey } = action.payload;
+            // ✅ 해당 rowKey에 대한 변경 사항 가져오기
+            const updatedRow = state.editedRows[rowKey];
+            // ✅ 변경 사항이 없다면 그대로 반환
+            if (!updatedRow)
+                return state;
+            const newData = state.data.map((row) => row.rowKey === rowKey
+                ? Object.assign(Object.assign({}, row), updatedRow) : row);
+            const newOriginalData = state.originalData.map((row) => row.rowKey === rowKey
+                ? Object.assign(Object.assign({}, row), updatedRow) : row);
+            // ✅ editedRows에서 해당 rowKey 제거
+            const newEditedRows = Object.assign({}, state.editedRows);
+            delete newEditedRows[rowKey];
+            return Object.assign(Object.assign({}, state), { data: newData, originalData: newOriginalData, editedRows: newEditedRows, editingCell: null });
+        }
+        case "RESET_ROW_CHANGES": {
+            const { rowKey } = action.payload;
+            // ✅ 원본 데이터에서 해당 rowKey의 데이터 가져오기
+            const originalRow = state.originalData.find((row) => row.rowKey === rowKey);
+            // ✅ 원본 데이터가 없으면 변경하지 않음
+            if (!originalRow)
+                return state;
+            const newData = state.data.map((row) => row.rowKey === rowKey
+                ? originalRow // ✅ 원본 데이터로 복원
+                : row);
+            // ✅ editedRows에서 해당 rowKey 제거
+            const newEditedRows = Object.assign({}, state.editedRows);
+            delete newEditedRows[rowKey];
+            return Object.assign(Object.assign({}, state), { data: newData, editedRows: newEditedRows, editingCell: null });
+        }
+        case "APPLY_ALL_CHANGES": {
+            const newData = state.originalData.map((row) => state.editedRows[row.rowKey]
+                ? Object.assign(Object.assign({}, row), state.editedRows[row.rowKey]) : row);
+            return Object.assign(Object.assign({}, state), { originalData: newData, data: paginateData(newData, state.pagenate.currentPage, state.pagenate.pageSize, state), editedRows: {}, editingCell: null });
+        }
+        case "RESET_ALL_CHANGES": {
+            return Object.assign(Object.assign({}, state), { editedRows: {}, editingCell: null });
         }
         /** 🔹 Grid 상태 변경 */
         case "SET_GRID_STATE":

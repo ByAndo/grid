@@ -3,7 +3,10 @@ import GridBody from "./Parts/GridBody";
 import { useGridReducer } from "./Reducer/useGridReducer";
 import GridPagination from "./Parts/GridPagination";
 import { GridProps } from "./GridTypes";
+import { setRowKeysForOrginData } from "./Utility/GridUtility";
 import "../../index.css";
+import { useEffect, useState } from "react";
+
 
 
 const Grid = <T,>({
@@ -14,29 +17,31 @@ const Grid = <T,>({
   showRowCheckboxCol = false,
   pagingable = false,
   pagination,
+  isCellEditable = false,
 
 }: GridProps<T>) => {  
-  const reducer = useGridReducer<T>(data, pagingable, pagination?.pageSize);
+  const reducer = useGridReducer<T>(setRowKeysForOrginData(data), pagingable, pagination?.pageSize);
 
   const { pagenate } = reducer.state;
   const totalRows = data.length; // ✅ 전체 데이터 개수
-  const totalPages = Math.ceil(totalRows / pagenate.pageSize); // ✅ 총 페이지 계산
-  
-  
+  const totalPages = Math.ceil(totalRows / pagenate.pageSize); // ✅ 총 페이지 계산  
+  console.log("Grid.tsx - editedRows:", reducer.state.editedRows);
+
   return (
-    <div className="nh-grid-container">
-        <h2>V0.1.1</h2>
+    <div className="nh-grid-container">        
         <table className="nh-grid-table">          
             <GridHeader
                 columns={columns}                                
                 showRowNumCol={showRowNumCol}
                 showRowCheckboxCol={showRowCheckboxCol}  
                 options={options}       
-                reducer={reducer}       
+                reducer={reducer}   
+                editedRows = {reducer.state.editedRows}    
             />
             <GridBody
-                gridState={reducer.state}                            
+                reducer={reducer}                
                 columns={columns}
+                isCellEditable = {isCellEditable}
                 showRowNumCol={showRowNumCol}
                 showRowCheckboxCol={showRowCheckboxCol}
                 selectedRows={reducer.state.selectedRows}
@@ -52,7 +57,8 @@ const Grid = <T,>({
                   onPageChange={reducer.setPage} 
                   totalDataCount={data.length} 
                   pageSize={reducer.state.pagenate.pageSize} 
-                  onPageSizeChange={reducer.setPageSize}            />
+                  onPageSizeChange={reducer.setPageSize}  
+            />
         )}          
     </div>
   );

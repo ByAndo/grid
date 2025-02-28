@@ -45,10 +45,59 @@ interface SetPageSizeAction {
     type: "SET_PAGE_SIZE";
     pageSize: number;
 }
+/** 🔹Cell 값 변경 */
+interface SetEditCellAction {
+    type: "EDIT_CELL";
+    payload: {
+        rowKey: string;
+        colKey: string;
+        newValue: any;
+    };
+}
+interface SetEditingCellAction {
+    type: "SET_EDITING_CELL";
+    payload: {
+        rowKey: string;
+        colKey: string;
+        value: any;
+    };
+}
+interface ClearEditingCellAction {
+    type: "CLEAR_EDITING_CELL";
+}
+interface RemoveEditedCellAction {
+    type: "REMOVE_EDITED_CELL";
+    payload: {
+        rowKey: string;
+        colKey: string;
+    };
+}
+/** 🔹 특정 행의 변경 사항 적용 */
+interface ApplyRowChangesAction {
+    type: "APPLY_ROW_CHANGES";
+    payload: {
+        rowKey: string;
+    };
+}
+/** 🔹 특정 행의 변경 사항 되돌리기 */
+interface ResetRowChangesAction {
+    type: "RESET_ROW_CHANGES";
+    payload: {
+        rowKey: string;
+    };
+}
+/** 🔹모든 수정 값 변경 */
+interface ApplyAllChangesAction {
+    type: "APPLY_ALL_CHANGES";
+}
+/** 🔹모든 수정 값 되돌리기 */
+interface ResetAllChangesAction {
+    type: "RESET_ALL_CHANGES";
+}
 interface SetGridStateAction<T> {
     type: "SET_GRID_STATE";
     state: GridState<T>;
 }
 /** 🔹 Grid 액션 타입 정의 */
-type GridAction<T> = SetGridStateAction<T> | SetSortAction | SetFilterAction | ClearFilterAction | SetGroupAction | RemoveGroupAction | ToggleGroupExpandAction | ToggleRowAction<T> | SetPageAction | SetPageSizeAction;
-export type { GridAction, SetGridStateAction, SetSortAction, SetFilterAction, ClearFilterAction, SetGroupAction, RemoveGroupAction, ToggleGroupExpandAction, ToggleRowAction, SetPageAction, SetPageSizeAction };
+type GridAction<T> = SetGridStateAction<T> | SetSortAction | SetFilterAction | ClearFilterAction | SetGroupAction | RemoveGroupAction | ToggleGroupExpandAction | ToggleRowAction<T> | SetPageAction | SetPageSizeAction | SetEditingCellAction | ClearEditingCellAction | SetEditCellAction | RemoveEditedCellAction | ApplyAllChangesAction | ResetAllChangesAction | ApplyRowChangesAction | ResetRowChangesAction;
+export type { GridAction, SetGridStateAction, SetSortAction, SetFilterAction, ClearFilterAction, SetGroupAction, RemoveGroupAction, ToggleGroupExpandAction, ToggleRowAction, SetPageAction, SetPageSizeAction, SetEditingCellAction, ClearEditingCellAction, SetEditCellAction, RemoveEditedCellAction, ApplyAllChangesAction, ResetAllChangesAction, ApplyRowChangesAction, ResetRowChangesAction, };

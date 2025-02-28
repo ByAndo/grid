@@ -20,6 +20,9 @@ interface GridColumn<T> {
   
     /** 컬럼 필터 가능 여부 (true이면 필터 기능 활성화) */
     filterable?: boolean;
+
+    /** 수정 가능 컬럼 여부 (기본 true : 수정 가능) */
+    editable?: boolean
   
     /** 컬럼 크기 조절 가능 여부 (true이면 사용자가 크기 조정 가능) */
     resizable?: boolean;
@@ -114,9 +117,11 @@ interface GridProps<T> {
 
     /** 표시할 데이터 (기존 `rows` → `data`) */
     data: T[];
-
+    
+    /** 페이징 활성화 (기본값: false) */
     pagingable? : boolean
-    /** 페이징 설정 (선택적) */
+
+    /** 페이징 설정 (pagingable = true 일때만 적용) */
     pagination?: GridPaginationProps;
 
     /** Grid 전역 옵션 (정렬, 필터, 리사이즈, 그룹핑 등) */
@@ -127,6 +132,9 @@ interface GridProps<T> {
 
     /** Row 체크박스 컬럼 활성화 여부 (기본값: false) */
     showRowCheckboxCol?: boolean;
+
+    /** Cell Edit Mode 활성화 (기본값: false) */
+    isCellEditable?: boolean;
 }
 interface GridGroupState {
     column : string [];

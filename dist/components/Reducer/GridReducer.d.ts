@@ -20,6 +20,14 @@ interface GridState<T> {
     pagingable?: boolean;
     /** 현재 페이지 */
     pagenate: GridPaginationProps;
+    /** 수정된 Data 관리 */
+    editedRows: Record<string, Partial<T>>;
+    /** 현재 편집 중인 셀 */
+    editingCell: {
+        rowKey: string;
+        colKey: string;
+        value: any;
+    } | null;
 }
 /** 🔹 초기 상태 값 */
 declare const initialGridState: <T>(data: T[], pagingable: boolean, pageSize: number) => GridState<T>;

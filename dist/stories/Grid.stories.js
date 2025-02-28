@@ -35,5 +35,6 @@ export const Default = {
             pageSize: 5,
             currentPage: 1,
         },
+        isCellEditable: true,
     },
 };

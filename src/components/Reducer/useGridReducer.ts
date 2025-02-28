@@ -15,6 +15,14 @@ export interface GridReducerReturn<T> {
     setPageSize: (pageSize: number) => void; 
     expandGroup: (column: string) => void;
     updateGridState : () => void;
+    editCell : (rowKey: string, colKey: string, newValue: any) => void;
+    setEditingCell : (rowKey: string, colKey: string, newValue: any) => void;
+    clearEditingCell : () => void;
+    applyAllChanges : () => void;
+    resetAllChanges : () => void;
+    removeEditedCell : (rowKey: string, colKey: string) => void;
+    applyRowChanges : (rowKey: string) => void;
+    resetRowChanges : (rowKey: string) => void;
     
 }
 
@@ -141,6 +149,39 @@ function useGridReducer<T>(data: T[], pagingable: boolean = false, pageSize : nu
         });
     }
 
+    const setEditingCell = (rowKey: string, colKey: string, value: any) => {
+        dispatch({ type: "SET_EDITING_CELL", payload: { rowKey, colKey, value } });
+    };
+    
+    const clearEditingCell = () => {
+        dispatch({ type: "CLEAR_EDITING_CELL" });
+    };
+    
+    const editCell = (rowKey: string, colKey: string, newValue: any) => {
+        dispatch({ type: "EDIT_CELL", payload: { rowKey, colKey, newValue } });
+    };
+    
+    const removeEditedCell = (rowKey: string, colKey: string) => {
+        dispatch({ type: "REMOVE_EDITED_CELL", payload: { rowKey, colKey } });
+    };
+
+    const applyRowChanges = (rowKey: string) => {
+        dispatch({ type: "APPLY_ROW_CHANGES", payload: { rowKey } });
+    };
+    
+    const resetRowChanges = (rowKey: string) => {
+        dispatch({ type: "RESET_ROW_CHANGES", payload: { rowKey } });
+    };
+    
+    const applyAllChanges = () => {
+        dispatch({ type: "APPLY_ALL_CHANGES" });
+    };
+    
+    const resetAllChanges = () => {
+        dispatch({ type: "RESET_ALL_CHANGES" });
+    };   
+
+
     /** 🔹 Grid 상태 전체 업데이트 */
     const updateGridState = () => {
         dispatch({ 
@@ -161,7 +202,15 @@ function useGridReducer<T>(data: T[], pagingable: boolean = false, pageSize : nu
         expandGroup,
         toggleRow,
         setPage,
-        setPageSize
+        setPageSize,
+        editCell,
+        setEditingCell,
+        clearEditingCell,
+        applyAllChanges,
+        resetAllChanges,
+        removeEditedCell,
+        applyRowChanges,
+        resetRowChanges,
     };
 }
 

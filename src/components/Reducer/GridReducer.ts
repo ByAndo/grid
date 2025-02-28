@@ -23,6 +23,11 @@ interface GridState<T> {
     pagingable? : boolean; 
     /** 현재 페이지 */
     pagenate: GridPaginationProps; 
+    /** 수정된 Data 관리 */
+    editedRows : Record<string, Partial<T>>;
+    /** 현재 편집 중인 셀 */
+    editingCell: { rowKey: string; colKey: string; value: any } | null;
+    
 }
 
 /** 🔹 초기 상태 값 */
@@ -43,6 +48,8 @@ const initialGridState = <T>(data: T[], pagingable: boolean, pageSize: number): 
             pageSize: pageSize,
             currentPage: 1,
         },
+        editedRows : {},
+        editingCell : null
     };
 };
 
@@ -167,6 +174,144 @@ function gridReducer<T>(state: GridState<T>, action: GridAction<T>): GridState<T
                 },
             };
         }        
+        case "SET_EDITING_CELL": {
+            return {
+                ...state,
+                editingCell: {
+                    rowKey: action.payload.rowKey,
+                    colKey: action.payload.colKey,
+                    value: action.payload.value
+                }
+            };
+        }
+        case "CLEAR_EDITING_CELL": {
+            return {
+                ...state,
+                editingCell: null
+            };
+        }
+        case "EDIT_CELL": {
+            const { rowKey, colKey, newValue } = action.payload;
+            return {
+                ...state,
+                editedRows: {
+                    ...state.editedRows,
+                    [rowKey]: {
+                        ...state.editedRows[rowKey],
+                        [colKey]: newValue
+                    }
+                }
+            };
+        }
+        case "REMOVE_EDITED_CELL": {
+            const { rowKey, colKey } = action.payload;
+            const updatedRow = { ...state.editedRows[rowKey] };
+            delete updatedRow[colKey as keyof T];
+
+            if (Object.keys(updatedRow).length === 0) {
+                const newEditedRows = { ...state.editedRows };
+                delete newEditedRows[rowKey];
+                return {
+                    ...state,
+                    editedRows: newEditedRows
+                };
+            }
+
+            return {
+                ...state,
+                editedRows: {
+                    ...state.editedRows,
+                    [rowKey]: updatedRow
+                }
+            };
+        }
+        case "APPLY_ROW_CHANGES": {
+            const { rowKey } = action.payload;
+            
+            // ✅ 해당 rowKey에 대한 변경 사항 가져오기
+            const updatedRow = state.editedRows[rowKey];
+        
+            // ✅ 변경 사항이 없다면 그대로 반환
+            if (!updatedRow) return state;
+        
+            const newData = state.data.map((row) =>
+                (row as T & { rowKey: string }).rowKey === rowKey
+                    ? { ...row, ...updatedRow } // ✅ 수정된 데이터 반영
+                    : row
+            );
+        
+            const newOriginalData = state.originalData.map((row) =>
+                (row as T & { rowKey: string }).rowKey === rowKey
+                    ? { ...row, ...updatedRow } // ✅ 원본 데이터도 함께 변경
+                    : row
+            );
+        
+            // ✅ editedRows에서 해당 rowKey 제거
+            const newEditedRows = { ...state.editedRows };
+            delete newEditedRows[rowKey];
+        
+            return {
+                ...state,
+                data: newData,
+                originalData: newOriginalData, // ✅ 원본 데이터 업데이트
+                editedRows: newEditedRows, // ✅ 해당 Row만 제거
+                editingCell: null, // ✅ 편집 상태 초기화
+            };
+        }
+        
+        
+        
+        case "RESET_ROW_CHANGES": {
+            const { rowKey } = action.payload;
+        
+            // ✅ 원본 데이터에서 해당 rowKey의 데이터 가져오기
+            const originalRow = state.originalData.find(
+                (row) => (row as T & { rowKey: string }).rowKey === rowKey
+            );
+        
+            // ✅ 원본 데이터가 없으면 변경하지 않음
+            if (!originalRow) return state;
+        
+            const newData = state.data.map((row) =>
+                (row as T & { rowKey: string }).rowKey === rowKey
+                    ? originalRow // ✅ 원본 데이터로 복원
+                    : row
+            );
+        
+            // ✅ editedRows에서 해당 rowKey 제거
+            const newEditedRows = { ...state.editedRows };
+            delete newEditedRows[rowKey];
+        
+            return {
+                ...state,                
+                data: newData, // ✅ 변경된 데이터 복원
+                editedRows: newEditedRows, // ✅ 해당 Row의 변경 사항 삭제
+                editingCell: null, // ✅ 편집 상태 초기화
+            };
+        }  
+  
+        case "APPLY_ALL_CHANGES": {
+            const newData = state.originalData.map((row) =>
+                state.editedRows[(row as T & {rowKey : string}).rowKey]
+                    ? { ...row, ...state.editedRows[(row as T & {rowKey : string}).rowKey] }
+                    : row
+            )
+            return {
+                ...state,
+                originalData : newData,  
+                data : paginateData(newData, state.pagenate.currentPage, state.pagenate.pageSize, state),                              
+                editedRows: {}, // ✅ 적용 후 초기화
+                editingCell : null
+            };
+        }
+        
+        case "RESET_ALL_CHANGES": {
+            return {
+                ...state,
+                editedRows: {}, // ✅ 모든 변경 사항 초기화
+                editingCell : null,
+            };
+        }         
         /** 🔹 Grid 상태 변경 */
         case "SET_GRID_STATE":
             return { ...state, ...action.state }; // ✅ 새로운 상태 적용
