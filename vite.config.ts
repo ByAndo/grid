@@ -11,7 +11,8 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"), // ✅ 패키지의 진입점
       name: "NhGridComp",
-      fileName: (format) => `nh-grid-comp.${format}.js`,
+      formats: ["es", "cjs"], // ✅ ESM + CommonJS 번들 생성
+      fileName: (format) => (format === "es" ? "index.mjs" : "index.cjs"), // ✅ 파일명 설정
     },
     rollupOptions: {
       output: {
