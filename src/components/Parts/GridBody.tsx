@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { GridColumn, GroupRow } from "../GridTypes";
-import { GridState } from "../Reducer/GridReducer";
 import { isGroupRowHelper } from "../Utility/GridUtility";
 import { FaCheck, FaChevronDown, FaChevronRight, FaUndo } from "react-icons/fa";
 import { GridReducerReturn } from "../Reducer/useGridReducer";
@@ -13,7 +12,8 @@ interface GridBodyProps<T> {
     selectedRows: Set<T>;
     onToggleRow: (row: T) => void;
     onToggleGroupExpand: (groupKey: string) => void;
-    reducer : GridReducerReturn<T>
+    reducer : GridReducerReturn<T>;
+    style?: React.CSSProperties;
 }
 
 const GridBody = <T,>({    
@@ -25,6 +25,7 @@ const GridBody = <T,>({
     onToggleRow,
     onToggleGroupExpand,
     reducer,
+    style,
 }: GridBodyProps<T>) => {      
 
     /** 🔹 셀 편집 모드 활성화 */
@@ -149,13 +150,15 @@ const GridBody = <T,>({
                         )}
                     </td>
                 )}
-    
-                {showRowNumCol ? <td className="nh-table-cell text-center">{rowNum}</td> : null}
+                {/* Check Box */}
                 {showRowCheckboxCol ? (
                     <td className="nh-table-cell text-center">
                         <input type="checkbox" checked={selectedRows.has(row)} onChange={() => onToggleRow(row)} />
                     </td>
                 ) : null}
+                {/* Row Num */}
+                {showRowNumCol ? <td className="nh-table-cell text-center">{rowNum}</td> : null}
+
     
                 {columns.map((col) => {
                     const cellKey = `${rowKey}-${col.key}`;
@@ -222,7 +225,7 @@ const GridBody = <T,>({
 
     return (
         <>
-            <tbody>
+            <tbody style={style}>
                 {reducer.state.data.map((row, index) =>
                     isGroupRowHelper(row)
                         ? renderGroupRow(row as GroupRow<T>, 0)

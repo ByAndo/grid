@@ -131,12 +131,24 @@ function gridReducer<T>(state: GridState<T>, action: GridAction<T>): GridState<T
             };
         }
 
+        /** 🔹 특정 Row 선택/해제 */
+        case "TOGGLE_ROW": {
+            const { row } = action; // ✅ 액션에서 row 가져오기
+            const newSelectedRows = new Set(state.selectedRows);
         
-        case "TOGGLE_ROW" : {
-            return {...state}
+            if (newSelectedRows.has(row)) {
+                newSelectedRows.delete(row); // ✅ 이미 선택된 행이면 삭제
+            } else {
+                newSelectedRows.add(row); // ✅ 선택 안 된 행이면 추가
+            }
+        
+            return {
+                ...state,
+                selectedRows: newSelectedRows, // ✅ 선택된 행 상태 업데이트
+            };
         }
 
-        /** 🔹 특정 Row 선택/해제 */
+        /** 🔹 특정 Group Expand선택/해제 */
         case "TOGGLE_GROUP_EXPAND": {
             const newExpanded = new Set(state.group.expanded);
             

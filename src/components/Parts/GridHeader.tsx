@@ -11,6 +11,7 @@ interface GridHeaderProps<T> {
   options?: GridOptions;
   reducer : GridReducerReturn<T>
   editedRows: Record<string, Partial<T>>; 
+  style?: React.CSSProperties;
   
 }
 const GridHeader = <T,>({
@@ -20,6 +21,7 @@ const GridHeader = <T,>({
     options,
     reducer,
     editedRows,
+    style,
   }: GridHeaderProps<T>) => {
     const [menuPosition, setmenuPosition] = useState<{ x: number; y: number, column : GridColumn<T> } | null>(null);
     const {filters, sortedColumn, sortDirection, group} = reducer.state
@@ -41,15 +43,15 @@ const GridHeader = <T,>({
             <tr className="nh-grid-header-row">
                 {/* ✅ "전체 적용(✔) / 되돌리기(↩)" 버튼 */}
                 {editedRows && Object.keys(editedRows).length > 0 && (                    
-                    <th className="nh-grid-header-cell nh-action-header">
+                    <th className="nh-grid-header-cell nh-action-header" style={{...style}}>
                         <div style={{ display: "flex", gap: "1px", justifyContent: "center" }}>
                             <button className="nh-btn nh-btn-apply" onClick={reducer.applyAllChanges}><FaCheck /></button>
                             <button className="nh-btn nh-btn-reset" onClick={reducer.resetAllChanges}><FaUndo /></button>
                         </div>
                     </th>
                 )}                
-                {showRowNumCol && <th className="nh-grid-header-cell">No.</th>}
-                {showRowCheckboxCol && <th className="nh-grid-header-cell">✔</th>}                
+                {showRowCheckboxCol && <th className="nh-grid-header-cell" style={{...style}}>✔</th>} 
+                {showRowNumCol && <th className="nh-grid-header-cell" style={{...style}}>No.</th>}                               
 
                 {columns.map((col) => (
                     <th
@@ -57,7 +59,7 @@ const GridHeader = <T,>({
                         className={`nh-grid-header-cell ${
                             col.sticky === "left" ? "sticky-left" : ""
                         } ${col.sticky === "right" ? "sticky-right" : ""}`}
-                        style={{ width: col.width ? `${col.width}px` : "auto", textAlign: col.align || "left" }}
+                        style={{ width: col.width ? `${col.width}px` : "auto", textAlign: col.align || "left", ...style}}
                         title={col.tooltip}
                         onContextMenu={(event) => handleContextMenu(event, col)}
                     >

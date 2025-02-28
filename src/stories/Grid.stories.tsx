@@ -51,6 +51,7 @@ export const Default: Story = {
       pageSize: 5,
       currentPage: 1,
     },
-    isCellEditable : true,
+    isCellEditable : true, 
+    showRowCheckboxCol : true,    
   },
 };

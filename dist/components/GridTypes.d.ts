@@ -81,6 +81,12 @@ interface GridProps<T> {
     columns: GridColumn<T>[];
     /** 표시할 데이터 (기존 `rows` → `data`) */
     data: T[];
+    /** Grid Style */
+    style?: React.CSSProperties;
+    /** Header 전용 스타일 */
+    headerStyle?: React.CSSProperties;
+    /** Body 전용 스타일 */
+    bodyStyle?: React.CSSProperties;
     /** 페이징 활성화 (기본값: false) */
     pagingable?: boolean;
     /** 페이징 설정 (pagingable = true 일때만 적용) */
@@ -91,6 +97,8 @@ interface GridProps<T> {
     showRowNumCol?: boolean;
     /** Row 체크박스 컬럼 활성화 여부 (기본값: false) */
     showRowCheckboxCol?: boolean;
+    /** Cell Edit Mode 활성화 (기본값: false) */
+    onSelectionChange?: (selectedRows: Set<T>) => void;
     /** Cell Edit Mode 활성화 (기본값: false) */
     isCellEditable?: boolean;
 }

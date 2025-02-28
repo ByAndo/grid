@@ -59,10 +59,19 @@ function gridReducer(state, action) {
                     ? groupData(state.originalData, newGroupedColumns, newExpanded) // ✅ 남은 그룹이 있으면 다시 그룹핑
                     : [...state.originalData] });
         }
-        case "TOGGLE_ROW": {
-            return Object.assign({}, state);
-        }
         /** 🔹 특정 Row 선택/해제 */
+        case "TOGGLE_ROW": {
+            const { row } = action; // ✅ 액션에서 row 가져오기
+            const newSelectedRows = new Set(state.selectedRows);
+            if (newSelectedRows.has(row)) {
+                newSelectedRows.delete(row); // ✅ 이미 선택된 행이면 삭제
+            }
+            else {
+                newSelectedRows.add(row); // ✅ 선택 안 된 행이면 추가
+            }
+            return Object.assign(Object.assign({}, state), { selectedRows: newSelectedRows });
+        }
+        /** 🔹 특정 Group Expand선택/해제 */
         case "TOGGLE_GROUP_EXPAND": {
             const newExpanded = new Set(state.group.expanded);
             if (newExpanded.has(action.column)) {

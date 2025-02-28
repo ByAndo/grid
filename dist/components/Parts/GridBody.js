@@ -2,7 +2,7 @@ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-run
 import React from "react";
 import { isGroupRowHelper } from "../Utility/GridUtility";
 import { FaCheck, FaChevronDown, FaChevronRight, FaUndo } from "react-icons/fa";
-const GridBody = ({ columns, showRowNumCol = false, showRowCheckboxCol = false, selectedRows, isCellEditable = false, onToggleRow, onToggleGroupExpand, reducer, }) => {
+const GridBody = ({ columns, showRowNumCol = false, showRowCheckboxCol = false, selectedRows, isCellEditable = false, onToggleRow, onToggleGroupExpand, reducer, style, }) => {
     /** 🔹 셀 편집 모드 활성화 */
     const handleCellDoubleClick = (rowKey, colKey, value) => {
         reducer.setEditingCell(rowKey, colKey, value); // ✅ 값까지 저장!
@@ -76,7 +76,7 @@ const GridBody = ({ columns, showRowNumCol = false, showRowCheckboxCol = false, 
         const isEditing = (colKey) => { var _a, _b; return ((_a = reducer.state.editingCell) === null || _a === void 0 ? void 0 : _a.rowKey) === rowKey && ((_b = reducer.state.editingCell) === null || _b === void 0 ? void 0 : _b.colKey) === colKey; };
         const isRowEdited = reducer.state.editedRows[rowKey] !== undefined; // ✅ 수정된 행인지 체크
         const showActionColumn = isCellEditable && Object.keys(reducer.state.editedRows).length > 0;
-        return (_jsxs("tr", { style: { borderBottom: "1px solid var(--color-second-hover)" }, children: [showActionColumn && (_jsx("td", { className: "nh-table-cell nh-action-cell", children: isRowEdited && (_jsxs(_Fragment, { children: [_jsx("button", { className: "nh-btn nh-btn-apply", onClick: () => reducer.applyRowChanges(rowKey), children: _jsx(FaCheck, {}) }), _jsx("button", { className: "nh-btn nh-btn-reset", onClick: () => reducer.resetRowChanges(rowKey), children: _jsx(FaUndo, {}) })] })) })), showRowNumCol ? _jsx("td", { className: "nh-table-cell text-center", children: rowNum }) : null, showRowCheckboxCol ? (_jsx("td", { className: "nh-table-cell text-center", children: _jsx("input", { type: "checkbox", checked: selectedRows.has(row), onChange: () => onToggleRow(row) }) })) : null, columns.map((col) => {
+        return (_jsxs("tr", { style: { borderBottom: "1px solid var(--color-second-hover)" }, children: [showActionColumn && (_jsx("td", { className: "nh-table-cell nh-action-cell", children: isRowEdited && (_jsxs(_Fragment, { children: [_jsx("button", { className: "nh-btn nh-btn-apply", onClick: () => reducer.applyRowChanges(rowKey), children: _jsx(FaCheck, {}) }), _jsx("button", { className: "nh-btn nh-btn-reset", onClick: () => reducer.resetRowChanges(rowKey), children: _jsx(FaUndo, {}) })] })) })), showRowCheckboxCol ? (_jsx("td", { className: "nh-table-cell text-center", children: _jsx("input", { type: "checkbox", checked: selectedRows.has(row), onChange: () => onToggleRow(row) }) })) : null, showRowNumCol ? _jsx("td", { className: "nh-table-cell text-center", children: rowNum }) : null, columns.map((col) => {
                     var _a, _b, _c, _d, _e, _f, _g;
                     const cellKey = `${rowKey}-${col.key}`;
                     const cellValue = isEditing(col.key)
@@ -114,7 +114,7 @@ const GridBody = ({ columns, showRowNumCol = false, showRowCheckboxCol = false, 
     //         })}
     //     </tr>
     // );
-    return (_jsx(_Fragment, { children: _jsx("tbody", { children: reducer.state.data.map((row, index) => isGroupRowHelper(row)
+    return (_jsx(_Fragment, { children: _jsx("tbody", { style: style, children: reducer.state.data.map((row, index) => isGroupRowHelper(row)
                 ? renderGroupRow(row, 0)
                 : renderDataRow(row, 0, index + 1)) }) }));
 };

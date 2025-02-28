@@ -66,6 +66,7 @@ interface GridPaginationProps {
 
 /** 🔹 Grid 전역 옵션 설정 인터페이스 */
 interface GridOptions {    
+
     /** 전체 Grid에서 정렬 기능 활성화 여부 (기본값: false) */
     sortable?: boolean;
   
@@ -118,6 +119,15 @@ interface GridProps<T> {
     /** 표시할 데이터 (기존 `rows` → `data`) */
     data: T[];
     
+    /** Grid Style */
+    style?: React.CSSProperties;
+
+    /** Header 전용 스타일 */
+    headerStyle?: React.CSSProperties; 
+
+    /** Body 전용 스타일 */
+    bodyStyle?: React.CSSProperties;
+    
     /** 페이징 활성화 (기본값: false) */
     pagingable? : boolean
 
@@ -131,10 +141,14 @@ interface GridProps<T> {
     showRowNumCol?: boolean;
 
     /** Row 체크박스 컬럼 활성화 여부 (기본값: false) */
-    showRowCheckboxCol?: boolean;
+    showRowCheckboxCol?: boolean; 
+
+    /** Cell Edit Mode 활성화 (기본값: false) */
+    onSelectionChange?: (selectedRows: Set<T>) => void;
 
     /** Cell Edit Mode 활성화 (기본값: false) */
     isCellEditable?: boolean;
+
 }
 interface GridGroupState {
     column : string [];

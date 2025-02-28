@@ -36,5 +36,6 @@ export const Default = {
             currentPage: 1,
         },
         isCellEditable: true,
+        showRowCheckboxCol: true,
     },
 };
