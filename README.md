@@ -1,2 +1,68 @@
 # grid
 grid Comp.
+
+Example page
+
+import { Grid, GridColumn } from "nh-grid-comp";
+import React, { useState } from "react";
+
+interface SampleData {
+    id: number;
+    name: string;
+    age: number;
+    registered: string;
+}
+
+const SamplePage: React.FC = () => {
+    // 샘플 데이터
+    const [data] = useState<SampleData[]>([
+        { id: 1, name: "Alice", age: 25, registered: "2024-01-10" },
+        { id: 2, name: "Bob", age: 30, registered: "2023-05-22" },
+        { id: 3, name: "Charlie", age: 28, registered: "2022-08-15" },
+        { id: 4, name: "Alice", age: 22, registered: "2024-01-10" },
+        { id: 5, name: "Bob", age: 34, registered: "2023-05-22" },
+        { id: 6, name: "Charlie", age: 48, registered: "2022-08-15" },
+        { id: 7, name: "Alice", age: 22, registered: "2024-01-10" },
+        { id: 8, name: "Bob", age: 34, registered: "2023-05-22" },
+        { id: 9, name: "Charlie", age: 48, registered: "2022-08-15" },  
+        { id: 10, name: "Alice", age: 25, registered: "2024-01-10" },
+        { id: 12, name: "Bob", age: 30, registered: "2023-05-22" },
+        { id: 13, name: "Charlie", age: 28, registered: "2022-08-15" },
+        { id: 14, name: "Alice", age: 22, registered: "2024-01-10" },
+        { id: 15, name: "Bob", age: 34, registered: "2023-05-22" },
+        { id: 16, name: "Charlie", age: 48, registered: "2022-08-15" },
+        { id: 17, name: "Alice", age: 22, registered: "2024-01-10" },
+        { id: 18, name: "Bob", age: 34, registered: "2023-05-22" },
+        { id: 19, name: "Charlie", age: 48, registered: "2022-08-15" },      
+    ]);
+
+    // 컬럼 정의
+    const columns: GridColumn<SampleData>[] = [
+        { key: "name", label: "이름", sortable: true, filterable: true, width: 100,},
+        { key: "age", label: "나이", sortable: true, filterable: true, width: 100, },
+        { key: "registered", label: "가입일", sortable: true },
+    ];
+
+    return (
+        <div className="p-4">
+        <h1 className="text-xl font-bold mb-4">Experiment Page</h1>
+            <Grid<SampleData>
+                columns={columns} 
+                data={data}
+                options={{
+                    sortable : true,     
+                    filterable : true,
+                    grouping : true,                  
+                }}
+                pagingable ={true}
+                pagination={{
+                    pageSize : 10,
+                    currentPage : 1,
+                }}
+                isCellEditable = {true}
+                />
+        </div>
+    );
+};
+
+export default SamplePage;
